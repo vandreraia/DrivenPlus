@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import Subscription from "./components/Subscription/Subscription";
 import Plan from "./components/Subscription/Plan";
 import Home from "./components/Home";
+import User from "./components/User";
 import { createGlobalStyle } from "styled-components";
 export default function App() {
     const [token, setToken] = useState()

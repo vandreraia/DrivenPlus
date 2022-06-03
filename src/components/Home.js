@@ -9,7 +9,7 @@ export default function Home({ name }) {
     const navigate = useNavigate();
     const { token } = useContext(TokenContext);
     const { data } = useContext(MembershipContext)
-    const { image, perks } = data;
+    const { image, perks, id } = data;
 
     function cancelMembership(event) {
         // event.preventDefault();
@@ -21,11 +21,11 @@ export default function Home({ name }) {
         <Container>
             <Top>
                 <img src={image} />
-                <ion-icon size="large" name="person-circle"></ion-icon>
+                <ion-icon onClick={() => navigate(`/users/${id}`)} size="large" name="person-circle"></ion-icon>
             </Top>
             <h2>Olá, {name}</h2>
             {perks?.map((perk, index) =>
-                <a href={perk.link} target="_blank"><Button key={index} onclick >{perk.title}</Button></a>
+                <a key={index} href={perk.link} target="_blank"><Button onclick >{perk.title}</Button></a>
             )}
             <Button2 onClick={() => navigate("/subscriptions")}>Mudar plano</Button2>
             <Button3 onClick={() => cancelMembership()}>Cancelar plano</Button3>

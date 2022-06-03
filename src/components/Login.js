@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import axios from 'axios';
 import TokenContext from '../context/TokenContext';
+import MembershipContext from '../context/MembershipContext';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import logo from "../assets/images/Driven_white 1.png"
 
-export default function Login() {
+export default function Login({setName}) {
     const { setToken } = useContext(TokenContext);
+    const { setMembership } = useContext(MembershipContext)
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [email, setEmail] = useState();
@@ -34,12 +36,15 @@ export default function Login() {
                     Authorization: `Bearer ${res.data.token}`
                 }
             });
+            setName(res.data.name);
+            setMembership(res.data.membership);
             setLoading(false);
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem("membership", res.data);
             if (res.data.membership) {
                 navigate("/home");
-                navigate("/subscriptions")
             } else {
+                navigate("/subscriptions")
             }
         }
         )
@@ -57,7 +62,7 @@ export default function Login() {
     //             Authorization: `Bearer ${localUser}`
     //         }
     //     });
-    //     navigate("/today");
+    //     navigate("/home");
     // }
 
     return (

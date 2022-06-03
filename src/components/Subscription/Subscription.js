@@ -8,13 +8,12 @@ import { Link } from "react-router-dom";
 export default function Subscription() {
     const { token } = useContext(TokenContext);
     const [plans, setPlans] = useState();
-    console.log(token)
+    
     useEffect(() => {
         axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships", token)
             .then((res) => {
 
                 setPlans(res.data)
-                console.log(res.data)
             }
             )
             .catch(err => console.log("subscription error", err))

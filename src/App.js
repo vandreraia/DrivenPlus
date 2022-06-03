@@ -11,8 +11,9 @@ import { createGlobalStyle } from "styled-components";
 export default function App() {
     const [token, setToken] = useState()
     const tokenContext = { token, setToken };
-    const [membership, setMembership] = useState()
-    const membershipContext = { membership, setMembership };
+    const [data, setMembership] = useState()
+    const membershipContext = { data, setMembership };
+    const [name, setName] = useState()
 
     return (
         <BrowserRouter>
@@ -20,11 +21,12 @@ export default function App() {
                 <TokenContext.Provider value={tokenContext}>
                     <GlobalStyle />
                         <Routes>
-                            <Route path="/" element={<Login />} />
+                            <Route path="/" element={<Login setName={setName}/>} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/subscriptions" element={<Subscription />} />
                             <Route path="/subscriptions/:idPlan" element={<Plan />} />
-                            <Route path="/home" element={<Home />} />
+                            <Route path="/home" element={<Home name={name}/>} />
+                            <Route path="/users/idUser" element={<User name={name}/>} />
                         </Routes>
                 </TokenContext.Provider>
             </MembershipContext.Provider>

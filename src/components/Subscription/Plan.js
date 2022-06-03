@@ -2,15 +2,16 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import TokenContext from "../../context/TokenContext";
+import MembershipContext from "../../context/MembershipContext";
 import styled from "styled-components";
-import arrow  from "../../assets/images/Vector.png"
+import arrow from "../../assets/images/Vector.png"
 
 export default function Plan() {
     const { token } = useContext(TokenContext);
+    const { setMembership } = useContext(MembershipContext);
     const { idPlan } = useParams();
     const navigate = useNavigate();
     const [plan, setPlan] = useState();
-    const [membershipId, setMembershipId] = useState();
     const [cardName, setCardName] = useState();
     const [cardNumber, setCardNumber] = useState();
     const [securityNumber, setSecurityNumber] = useState();
@@ -21,8 +22,6 @@ export default function Plan() {
         axios.get(`https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships/${idPlan}`, token)
             .then((res) => {
                 setPlan(res.data);
-                setMembershipId(res.data.id);
-                console.log(res.data)
             }
             )
             .catch(err => console.log("plan error", err))
@@ -31,42 +30,43 @@ export default function Plan() {
     function postPlan(event) {
         event.preventDefault();
         const body2 = {
-            membershipId: 1,
+            membershipId: plan.id,
             cardName: "Fulano Da Silva",
             cardNumber: "1234 1234 1234 1234",
             securityNumber: 123,
             expirationDate: "01/28"
         }
         const body = {
-            membershipId,
+            membershipId: plan.id,
             cardName,
             cardNumber,
             securityNumber,
             expirationDate
         }
         axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
-        body2, token)
-        .then((res) => {
-            navigate("/home");
-        })
-        .catch((err) => console.log(err))
+            body2, token)
+            .then((res) => {
+                setMembership(res.data.membership)
+                navigate("/home");
+            })
+            .catch((err) => console.log(err))
     }
-    
+
     return (
         <Container>
-            
+
             {confirm ? <Confirm>
                 <div>
-                    <p>Tem certeza que deseja assinar o plano Driven Plus (R$ 39,99)?</p>
+                    <p>Tem certeza que deseja assinar o plano {plan?.name} (R$ {plan?.price})?</p>
                     <div>
                         <button onClick={() => setConfirm(false)}>Não</button>
                         <button onClick={postPlan}>Sim</button>
                     </div>
                 </div>
-                    <ion-icon onClick={() => setConfirm(false)} size="large" name="close-circle"></ion-icon>
+                <ion-icon onClick={() => setConfirm(false)} size="large" name="close-circle"></ion-icon>
             </Confirm> : ""}
-            
-            <img onClick={() => navigate("/subscriptions")} src={arrow} alt="back"/>
+
+            <img onClick={() => navigate("/subscriptions")} src={arrow} alt="back" />
             <Flex>
                 <img src={plan?.image} />
                 <h3>{plan?.name}</h3>

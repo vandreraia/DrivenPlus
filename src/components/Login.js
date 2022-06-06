@@ -51,7 +51,7 @@ export default function Login({setName}) {
 
         promise.catch(() => {
             setLoading(false);
-            console.log("falha de login");
+            alert("falha de login");
         }
         );
     }

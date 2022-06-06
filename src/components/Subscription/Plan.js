@@ -46,10 +46,11 @@ export default function Plan() {
         axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
             body, token)
             .then((res) => {
+                console.log(cardName)
                 setMembership(res.data.membership)
                 navigate("/home");
             })
-            .catch((err) => console.log(err))
+            .catch((err) => alert(err))
     }
 
     return (

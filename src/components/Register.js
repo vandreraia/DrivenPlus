@@ -32,7 +32,7 @@ export default function Register() {
         );
         promise.catch(() => {
             setLoading(false);
-            console.log("falha de registro");
+            alert("falha de registro");
         }
         );
     }

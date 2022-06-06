@@ -29,7 +29,7 @@ export default function Login({setName}) {
         setLoading(true);
 
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login",
-            body2);
+            body);
         promise.then((res) => {
             setToken({
                 headers: {

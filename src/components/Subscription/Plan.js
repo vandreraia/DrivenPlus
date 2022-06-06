@@ -44,7 +44,7 @@ export default function Plan() {
             expirationDate
         }
         axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
-            body2, token)
+            body, token)
             .then((res) => {
                 setMembership(res.data.membership)
                 navigate("/home");
